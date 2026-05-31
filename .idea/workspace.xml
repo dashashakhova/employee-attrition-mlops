@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4d85e6b3-36f4-4f92-a1b1-641bff9a5672" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/adr_mdd_latency.md" afterDir="false" />
-    </list>
+    <list default="true" id="4d85e6b3-36f4-4f92-a1b1-641bff9a5672" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
