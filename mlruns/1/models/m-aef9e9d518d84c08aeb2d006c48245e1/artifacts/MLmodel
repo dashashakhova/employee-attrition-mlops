@@ -1,0 +1,24 @@
+artifact_path: "/Users/dariashakhova/Desktop/MIPT/\u0420\u0430\u0437\u0432\u0435\u0440\
+  \u0442\u044B\u0432\u0430\u043D\u0438\u0435_ML/employee-attrition-mlops/mlruns/1/models/m-aef9e9d518d84c08aeb2d006c48245e1/artifacts"
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.5
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+    skops_trusted_types: null
+mlflow_version: 3.12.0
+model_id: m-aef9e9d518d84c08aeb2d006c48245e1
+model_size_bytes: 3837
+model_uuid: m-aef9e9d518d84c08aeb2d006c48245e1
+prompts: null
+run_id: 9865c98cfeb7407fbbb34058f762dea8
+utc_time_created: '2026-05-31 13:11:52.372212'

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4d85e6b3-36f4-4f92-a1b1-641bff9a5672" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/employee-attrition-mlops.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/airflow/dags/promote_script.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/airflow/dags/retrain_model_dag.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/model_loader.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/schemas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mlflow/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/promote.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_model_loading.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/baseline_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/check_id_columns.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/eda.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/feature_analysis.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/find_constant_columns.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/target_analysis.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/training/train.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/Users/dariashakhova/Desktop/MIPT/Развертывание_ML/employee-attrition-mlops" value="3ERdhk6jLWqJWWvXC9p1MCxUNuX" />
+    </persistenceIdMap>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="3ERdhk6jLWqJWWvXC9p1MCxUNuX" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Docker.api/Dockerfile.executor": "Run",
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
+    "Docker.mlflow/Dockerfile.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.app.executor": "Run",
+    "Python.baseline_model.executor": "Run",
+    "Python.check_id_columns.executor": "Run",
+    "Python.config.executor": "Run",
+    "Python.congif.executor": "Run",
+    "Python.eda.executor": "Run",
+    "Python.feature_analysis.executor": "Run",
+    "Python.find_constant_columns.executor": "Run",
+    "Python.model_loader.executor": "Run",
+    "Python.promote_script.executor": "Run",
+    "Python.schemas.executor": "Run",
+    "Python.target_analysis.executor": "Run",
+    "Python.test_model_loading.executor": "Run",
+    "Python.train.executor": "Run",
+    "Python.training.executor": "Run",
+    "Python.utils.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docker" />
+      <recent name="$PROJECT_DIR$/data/raw" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-41e8cd69c857-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4d85e6b3-36f4-4f92-a1b1-641bff9a5672" name="Changes" comment="" />
+      <created>1780145436110</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1780145436110</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
