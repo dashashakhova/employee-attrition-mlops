@@ -5,34 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d85e6b3-36f4-4f92-a1b1-641bff9a5672" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/employee-attrition-mlops.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/airflow/dags/promote_script.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/airflow/dags/retrain_model_dag.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/model_loader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/schemas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mlflow/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/promote.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_model_loading.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training/baseline_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training/check_id_columns.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training/config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training/eda.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training/feature_analysis.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training/find_constant_columns.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training/target_analysis.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/training/train.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/ml_manifest.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.github/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/employee-attrition-mlops.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlflow.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-03318b5a1dd14a61a3ec0137335f5d89/artifacts/MLmodel" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-03318b5a1dd14a61a3ec0137335f5d89/artifacts/conda.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-03318b5a1dd14a61a3ec0137335f5d89/artifacts/model.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-03318b5a1dd14a61a3ec0137335f5d89/artifacts/python_env.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-03318b5a1dd14a61a3ec0137335f5d89/artifacts/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-aef9e9d518d84c08aeb2d006c48245e1/artifacts/MLmodel" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-aef9e9d518d84c08aeb2d006c48245e1/artifacts/conda.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-aef9e9d518d84c08aeb2d006c48245e1/artifacts/model.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-aef9e9d518d84c08aeb2d006c48245e1/artifacts/python_env.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-aef9e9d518d84c08aeb2d006c48245e1/artifacts/registered_model_meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-aef9e9d518d84c08aeb2d006c48245e1/artifacts/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-d327ef2ba23e4b8a9fae86dcdd82e9b9/artifacts/MLmodel" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-d327ef2ba23e4b8a9fae86dcdd82e9b9/artifacts/conda.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-d327ef2ba23e4b8a9fae86dcdd82e9b9/artifacts/model.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-d327ef2ba23e4b8a9fae86dcdd82e9b9/artifacts/python_env.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-d327ef2ba23e4b8a9fae86dcdd82e9b9/artifacts/registered_model_meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mlruns/1/models/m-d327ef2ba23e4b8a9fae86dcdd82e9b9/artifacts/requirements.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,12 +49,25 @@
       <list>
         <option value="Dockerfile" />
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "dashashakhova"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/dashashakhova/employee-attrition-mlops.git",
+    "accountId": "13058a75-e8f8-4d71-8ed8-b77fa5c86b87"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 1
 }]]></component>
@@ -90,12 +103,13 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs" />
       <recent name="$PROJECT_DIR$/docker" />
       <recent name="$PROJECT_DIR$/data/raw" />
     </key>
