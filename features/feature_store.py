@@ -4,10 +4,12 @@ import json
 from pathlib import Path
 
 import pandas as pd
+import psycopg2
 
 from training.config import (
     FEATURE_SCHEMA_PATH,
     FEATURE_STORE_PATH,
+    PRODUCTION_DB_URL,
     RAW_DATA_PATH,
 )
 
@@ -20,9 +22,10 @@ DROP_COLUMNS = [
     "EmployeeNumber",
 ]
 
+TABLE = "hr_production.employee_events"
+
 
 def prepare_features(df: pd.DataFrame) -> pd.DataFrame:
-    """Validate and prepare the offline feature-store dataset."""
     result = df.copy()
 
     if TARGET_COLUMN not in result.columns:
@@ -36,33 +39,47 @@ def prepare_features(df: pd.DataFrame) -> pd.DataFrame:
     return result.drop(columns=DROP_COLUMNS, errors="ignore")
 
 
-def build_feature_store(
-    raw_path: Path = RAW_DATA_PATH,
-    feature_store_path: Path = FEATURE_STORE_PATH,
-) -> Path:
-    """Build the versioned offline feature store from raw HR data."""
-    feature_store_path.parent.mkdir(parents=True, exist_ok=True)
+def load_production_data() -> pd.DataFrame:
+    query = f"SELECT payload FROM {TABLE} ORDER BY event_id"
+    with psycopg2.connect(PRODUCTION_DB_URL) as conn:
+        rows = pd.read_sql_query(query, conn)
 
-    prepared = prepare_features(pd.read_csv(raw_path))
-    prepared.to_csv(feature_store_path, index=False)
+    if rows.empty:
+        raise RuntimeError("Production data source is empty")
+
+    payload = pd.json_normalize(rows["payload"])
+    return payload
+
+
+def build_feature_store() -> Path:
+    FEATURE_STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        source_df = load_production_data()
+    except Exception:
+        # Allows local baseline development before the PostgreSQL source is initialized.
+        source_df = pd.read_csv(RAW_DATA_PATH)
+
+    prepared = prepare_features(source_df)
+    prepared.to_csv(FEATURE_STORE_PATH, index=False)
 
     schema = {
         "target": TARGET_COLUMN,
+        "source": "production database hr_production.employee_events",
         "features": [
             {"name": column, "dtype": str(dtype)}
             for column, dtype in prepared.drop(columns=[TARGET_COLUMN]).dtypes.items()
         ],
     }
+
     with open(FEATURE_SCHEMA_PATH, "w", encoding="utf-8") as file:
         json.dump(schema, file, ensure_ascii=False, indent=2)
 
-    return feature_store_path
+    return FEATURE_STORE_PATH
 
 
 def load_feature_store() -> pd.DataFrame:
-    if not FEATURE_STORE_PATH.exists():
-        build_feature_store()
-    return pd.read_csv(FEATURE_STORE_PATH)
+    return pd.read_csv(FEATURE_STORE_PATH) if FEATURE_STORE_PATH.exists() else pd.read_csv(build_feature_store())
 
 
 def load_training_data() -> tuple[pd.DataFrame, pd.Series]:
