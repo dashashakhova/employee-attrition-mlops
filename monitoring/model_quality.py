@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
 from pathlib import Path
 
-from training.config import CANDIDATES_DIR, THRESHOLD_RECALL, THRESHOLD_ROCAUC
+from training.config import (
+    CANDIDATES_DIR,
+    THRESHOLD_RECALL,
+    THRESHOLD_ROCAUC,
+)
 
 
-def latest_metrics():
+def latest_metrics() -> tuple[Path, dict]:
     files = sorted(CANDIDATES_DIR.glob("metrics_v*.json"))
     if not files:
         raise FileNotFoundError("No candidate metrics found")
@@ -22,13 +25,15 @@ def main():
         metrics["roc_auc"] >= THRESHOLD_ROCAUC
         and metrics["recall"] >= THRESHOLD_RECALL
     )
+
     result = {
-        "checked_at": datetime.now(timezone.utc).isoformat(),
         "metrics_file": str(path),
         "passed": passed,
         **metrics,
     }
-    print(json.dumps(result, indent=2))
+
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
     if not passed:
         raise SystemExit("Candidate model failed quality gates")
 
