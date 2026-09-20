@@ -29,4 +29,4 @@ DRIFT_TVD_THRESHOLD = float(os.getenv("DRIFT_TVD_THRESHOLD", "0.10"))
 THRESHOLD_ROCAUC = float(os.getenv("THRESHOLD_ROCAUC", "0.80"))
 THRESHOLD_RECALL = float(os.getenv("THRESHOLD_RECALL", "0.36"))
 
-MODEL_NAME = os.getenv("MODEL_NAME", "employee_attrition")
+ALLOW_STATIC_FALLBACK = os.getenv("ALLOW_STATIC_FALLBACK", "false").lower() == "true"\n\nMODEL_NAME = os.getenv("MODEL_NAME", "employee_attrition")
