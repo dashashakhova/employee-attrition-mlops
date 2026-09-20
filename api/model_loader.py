@@ -5,7 +5,7 @@ from pathlib import Path
 
 import joblib
 
-from training.config import MODEL_PATH, MODEL_POINTER_PATH
+from training.config import MODEL_PATH, MODEL_POINTER_PATH, PROJECT_ROOT
 
 _model = None
 _model_version = "baseline"
@@ -27,7 +27,16 @@ def get_model():
     if _model is not None and requested_version == _model_version:
         return _model
 
-    model_path = Path(pointer["model_path"]) if pointer else MODEL_PATH
+    if pointer:
+        raw_model_path = Path(pointer["model_path"])
+        model_path = (
+            raw_model_path
+            if raw_model_path.is_absolute()
+            else PROJECT_ROOT / raw_model_path
+        )
+    else:
+        model_path = MODEL_PATH
+
     if not model_path.exists():
         raise FileNotFoundError(f"Production model not found: {model_path}")
 
