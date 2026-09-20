@@ -10,6 +10,7 @@ from scipy.stats import ks_2samp
 
 from training.config import (
     DRIFT_P_VALUE,
+    DRIFT_REPORT_PATH,
     DRIFT_TVD_THRESHOLD,
     PRODUCTION_DB_URL,
 )
@@ -114,12 +115,18 @@ def detect_drift() -> dict:
         if tvd > DRIFT_TVD_THRESHOLD:
             drifted_features.append(column)
 
-    return {
+    result = {
         "checked_at": datetime.now(timezone.utc).isoformat(),
         "drift": bool(drifted_features),
         "drifted_features": sorted(set(drifted_features)),
         "details": details,
     }
+
+    DRIFT_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(DRIFT_REPORT_PATH, "w", encoding="utf-8") as file:
+        json.dump(result, file, ensure_ascii=False, indent=2)
+
+    return result
 
 
 def main() -> None:
