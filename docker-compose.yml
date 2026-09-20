@@ -55,6 +55,7 @@ services:
       - ./airflow/dags:/opt/airflow/dags
       - ./training:/opt/airflow/training
       - ./data:/opt/airflow/data
+      - ./:/opt/airflow/project
       - ./models:/opt/airflow/models
     ports:
       - "8081:8080"
