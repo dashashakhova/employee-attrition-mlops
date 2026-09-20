@@ -47,7 +47,13 @@ def insert_rows(conn, df: pd.DataFrame, batch_id: str) -> int:
 
     for _, row in df.iterrows():
         payload = {
-            column: (None if pd.isna(value) else value)
+            column: (
+                None
+                if pd.isna(value)
+                else value.item()
+                if hasattr(value, "item")
+                else value
+            )
             for column, value in row.to_dict().items()
         }
         rows.append((now, batch_id, Json(payload)))
@@ -60,13 +66,16 @@ def insert_rows(conn, df: pd.DataFrame, batch_id: str) -> int:
             """,
             rows,
         )
+
     conn.commit()
     return len(rows)
 
 
 def seed_reference_data(conn) -> None:
     with conn.cursor() as cur:
-        cur.execute(f"SELECT COUNT(*) FROM {TABLE} WHERE source_batch_id = 'reference'")
+        cur.execute(
+            f"SELECT COUNT(*) FROM {TABLE} WHERE source_batch_id = 'reference'"
+        )
         exists = cur.fetchone()[0] > 0
 
     if exists:
@@ -77,7 +86,10 @@ def seed_reference_data(conn) -> None:
     print(f"Seeded reference production data: {count} rows")
 
 
-def append_production_batch(conn, batch_size: int = PRODUCTION_BATCH_SIZE) -> str:
+def append_production_batch(
+    conn,
+    batch_size: int = PRODUCTION_BATCH_SIZE,
+) -> str:
     rng = np.random.default_rng()
     raw = pd.read_csv(RAW_DATA_PATH)
 
@@ -88,7 +100,7 @@ def append_production_batch(conn, batch_size: int = PRODUCTION_BATCH_SIZE) -> st
     ).copy()
 
     # Educational simulation of a changing production environment.
-    # This creates a controlled drift event that can be detected statistically.
+    # It creates a controlled drift event without claiming to be real HR data.
     mask = rng.random(len(batch)) < PRODUCTION_DRIFT_STRENGTH
     batch.loc[mask, "OverTime"] = "Yes"
     batch["MonthlyIncome"] = (
