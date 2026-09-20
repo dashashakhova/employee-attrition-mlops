@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: employee-attrition-api
+    runtime: docker
+    region: frankfurt
+    dockerfilePath: ./docker/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true
