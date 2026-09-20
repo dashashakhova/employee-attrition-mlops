@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from api.schemas import PredictionRequest, PredictionResponse
-from api.model_loader import get_model
+from api.model_loader import get_model, get_model_version
 import pandas as pd
 import logging
 from training.config import RAW_DATA_PATH
@@ -31,6 +31,10 @@ async def startup_event():
             default_values[col] = df[col].mode()[0] if not df[col].mode().empty else "Unknown"
     logger.info(f"Loaded {len(all_features)} features with default values")
     logger.info("Startup complete")
+
+@app.get("/metrics")
+async def metrics():
+    return {"model_version": get_model_version(), "status": "monitoring_enabled"}
 
 @app.get("/health")
 async def health():
