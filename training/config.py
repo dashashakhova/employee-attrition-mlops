@@ -15,7 +15,7 @@ CANDIDATES_DIR = MODELS_DIR / "candidates"
 VERSIONS_DIR = MODELS_DIR / "versions"
 MODEL_POINTER_PATH = MODELS_DIR / "production_pointer.json"
 
-MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5002")
+MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:8080")
 MLFLOW_ARTIFACT_ROOT = os.getenv("MLFLOW_ARTIFACT_ROOT", "./mlruns")
 
 PRODUCTION_DB_URL = os.getenv(
