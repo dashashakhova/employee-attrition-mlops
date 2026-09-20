@@ -54,7 +54,7 @@ services:
     command: >
       mlflow server
       --backend-store-uri postgresql://airflow:airflow@postgres/airflow
-      --default-artifact-root s3://mlflow-artifacts/
+      --artifacts-destination s3://mlflow-artifacts
       --host 0.0.0.0
       --port 8080
     healthcheck:
@@ -81,7 +81,10 @@ services:
       MLFLOW_TRACKING_URI: http://mlflow:8080
       PRODUCTION_DB_URL: postgresql://airflow:airflow@postgres:5432/airflow
       ALLOW_STATIC_FALLBACK: "false"
-      _PIP_ADDITIONAL_REQUIREMENTS: "mlflow scikit-learn pandas joblib scipy psycopg2-binary prometheus-client"
+      _PIP_ADDITIONAL_REQUIREMENTS: "mlflow>=2.9,<4 scikit-learn pandas joblib scipy psycopg2-binary prometheus-client boto3"
+      AWS_ACCESS_KEY_ID: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadmin
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
     volumes:
       - ./:/opt/airflow/project
       - ./airflow/dags:/opt/airflow/dags
@@ -122,7 +125,10 @@ services:
       MLFLOW_TRACKING_URI: http://mlflow:8080
       PRODUCTION_DB_URL: postgresql://airflow:airflow@postgres:5432/airflow
       ALLOW_STATIC_FALLBACK: "false"
-      _PIP_ADDITIONAL_REQUIREMENTS: "mlflow scikit-learn pandas joblib scipy psycopg2-binary prometheus-client"
+      _PIP_ADDITIONAL_REQUIREMENTS: "mlflow>=2.9,<4 scikit-learn pandas joblib scipy psycopg2-binary prometheus-client boto3"
+      AWS_ACCESS_KEY_ID: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadmin
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
     volumes:
       - ./:/opt/airflow/project
       - ./airflow/dags:/opt/airflow/dags
