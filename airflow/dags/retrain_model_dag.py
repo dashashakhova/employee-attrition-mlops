@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+import sys
+
+sys.path.insert(0, "/opt/airflow/project")
 
 from airflow import DAG
 from airflow.operators.bash import BashOperator
