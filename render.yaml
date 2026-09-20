@@ -6,4 +6,4 @@ services:
     dockerfilePath: ./docker/api/Dockerfile
     dockerContext: .
     healthCheckPath: /health
-    autoDeploy: true
+    autoDeployTrigger: checksPass
