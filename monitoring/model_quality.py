@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
+from pathlib import Path
 
 from training.config import CANDIDATES_DIR, THRESHOLD_RECALL, THRESHOLD_ROCAUC
 
@@ -20,7 +22,13 @@ def main():
         metrics["roc_auc"] >= THRESHOLD_ROCAUC
         and metrics["recall"] >= THRESHOLD_RECALL
     )
-    print(json.dumps({"metrics_file": str(path), "passed": passed, **metrics}, indent=2))
+    result = {
+        "checked_at": datetime.now(timezone.utc).isoformat(),
+        "metrics_file": str(path),
+        "passed": passed,
+        **metrics,
+    }
+    print(json.dumps(result, indent=2))
     if not passed:
         raise SystemExit("Candidate model failed quality gates")
 
