@@ -11,10 +11,11 @@ from training.config import (
 
 
 def latest_metrics() -> tuple[Path, dict]:
-    files = sorted(CANDIDATES_DIR.glob("metrics_v*.json"))
+    files = list(CANDIDATES_DIR.glob("metrics_v*.json"))
     if not files:
         raise FileNotFoundError("No candidate metrics found")
-    path = files[-1]
+
+    path = max(files, key=lambda item: int(item.stem.split("_v")[-1]))
     with open(path, encoding="utf-8") as file:
         return path, json.load(file)
 
