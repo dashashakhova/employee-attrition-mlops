@@ -3,10 +3,10 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 
 from airflow import DAG
-from airflow.operators.python import PythonOperator, ShortCircuitOperator
 from airflow.operators.bash import BashOperator
+from airflow.operators.python import ShortCircuitOperator
 
-from monitoring.drift import detect_drift
+from monitoring.retraining_trigger import retraining_required
 
 
 PROJECT_ROOT = "/opt/airflow/project"
@@ -20,16 +20,10 @@ default_args = {
 }
 
 
-def drift_event_detected() -> bool:
-    result = detect_drift()
-    print("Drift event:", result)
-    return bool(result["drift"])
-
-
 with DAG(
     dag_id="employee_attrition_retrain",
     default_args=default_args,
-    description="Event-driven retraining after production data drift",
+    description="Event-driven retraining after data drift or production quality degradation",
     schedule_interval="*/15 * * * *",
     catchup=False,
     tags=["mlops", "employee-attrition", "retraining"],
@@ -43,46 +37,34 @@ with DAG(
         ),
     )
 
-    detect_drift_event = ShortCircuitOperator(
-        task_id="detect_drift_event",
-        python_callable=drift_event_detected,
+    detect_retraining_event = ShortCircuitOperator(
+        task_id="detect_retraining_event",
+        python_callable=retraining_required,
     )
 
     build_features = BashOperator(
         task_id="build_feature_store",
-        bash_command=(
-            f"cd {PROJECT_ROOT} && "
-            "python -m features.feature_store"
-        ),
+        bash_command=f"cd {PROJECT_ROOT} && python -m features.feature_store",
     )
 
     train_model = BashOperator(
         task_id="train_model",
-        bash_command=(
-            f"cd {PROJECT_ROOT} && "
-            "python -m training.train"
-        ),
+        bash_command=f"cd {PROJECT_ROOT} && python -m training.train",
     )
 
     validate_model = BashOperator(
         task_id="validate_model",
-        bash_command=(
-            f"cd {PROJECT_ROOT} && "
-            "python -m monitoring.model_quality"
-        ),
+        bash_command=f"cd {PROJECT_ROOT} && python -m monitoring.model_quality",
     )
 
     promote_model = BashOperator(
         task_id="promote_model",
-        bash_command=(
-            f"cd {PROJECT_ROOT} && "
-            "python -m deployment.promote_model"
-        ),
+        bash_command=f"cd {PROJECT_ROOT} && python -m deployment.promote_model",
     )
 
     (
         ingest_new_data
-        >> detect_drift_event
+        >> detect_retraining_event
         >> build_features
         >> train_model
         >> validate_model
