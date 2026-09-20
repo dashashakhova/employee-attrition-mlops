@@ -1,4 +1,4 @@
-mlflow>=2.0
+mlflow>=2.9,<4
 scikit-learn
 pandas
 joblib
@@ -8,6 +8,5 @@ pydantic
 psycopg2-binary
 boto3
 pytest
-
 prometheus-client
 scipy
