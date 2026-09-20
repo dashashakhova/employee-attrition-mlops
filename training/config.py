@@ -4,20 +4,19 @@ import os
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 RAW_DATA_PATH = PROJECT_ROOT / "data" / "raw" / "hr_attrition.csv"
+FEATURE_STORE_PATH = PROJECT_ROOT / "data" / "processed" / "feature_store.csv"
+FEATURE_SCHEMA_PATH = PROJECT_ROOT / "data" / "processed" / "feature_schema.json"
 
 MODELS_DIR = PROJECT_ROOT / "models"
-
 MODEL_PATH = MODELS_DIR / "baseline_model.joblib"
+CANDIDATES_DIR = MODELS_DIR / "candidates"
+VERSIONS_DIR = MODELS_DIR / "versions"
+MODEL_POINTER_PATH = MODELS_DIR / "production_pointer.json"
 
-# MLflow configuration
-MLFLOW_TRACKING_URI = "http://localhost:5002"
-# MLFLOW_S3_ENDPOINT_URL = os.getenv("MLFLOW_S3_ENDPOINT_URL", "http://localhost:9000")
-# MLFLOW_ARTIFACT_ROOT = os.getenv("MLFLOW_ARTIFACT_ROOT", "s3://mlflow-artifacts/")
-MLFLOW_ARTIFACT_ROOT = "./mlruns"
+MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5002")
+MLFLOW_ARTIFACT_ROOT = os.getenv("MLFLOW_ARTIFACT_ROOT", "./mlruns")
 
-# Model promotion thresholds
-THRESHOLD_ROCAUC = 0.80
-THRESHOLD_RECALL = 0.36
+THRESHOLD_ROCAUC = float(os.getenv("THRESHOLD_ROCAUC", "0.80"))
+THRESHOLD_RECALL = float(os.getenv("THRESHOLD_RECALL", "0.36"))
 
-# Model name in MLflow Registry
-MODEL_NAME = "employee_attrition"
+MODEL_NAME = os.getenv("MODEL_NAME", "employee_attrition")
