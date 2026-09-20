@@ -24,6 +24,9 @@ def evaluate_latest_production_batch() -> dict:
     X = prepared.drop(columns=["Attrition"])
     y = prepared["Attrition"]
 
+    if y.nunique() < 2:
+        return {"available": False, "reason": "production batch contains one class"}
+
     model = get_model()
     probability = model.predict_proba(X)[:, 1]
     prediction = (probability >= 0.5).astype(int)
