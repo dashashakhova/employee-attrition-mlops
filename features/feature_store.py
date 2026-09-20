@@ -7,6 +7,7 @@ import pandas as pd
 import psycopg2
 
 from training.config import (
+    ALLOW_STATIC_FALLBACK,
     FEATURE_SCHEMA_PATH,
     FEATURE_STORE_PATH,
     PRODUCTION_DB_URL,
