@@ -1,53 +1,105 @@
+from __future__ import annotations
+
+import json
+
+import joblib
 import mlflow
 import mlflow.sklearn
-from mlflow.tracking import MlflowClient
-import os
+from mlflow import MlflowClient
+from mlflow.models import infer_signature
 
-from training.baseline_model import pipeline, X_test, y_test, roc_auc, f1, precision, recall
+from training.baseline_model import train_baseline
 from training.config import (
+    CANDIDATES_DIR,
     MLFLOW_TRACKING_URI,
     MODEL_NAME,
+    THRESHOLD_RECALL,
     THRESHOLD_ROCAUC,
-    THRESHOLD_RECALL
 )
 
-
-# Устанавливаем tracking URI
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 mlflow.set_experiment("employee_attrition")
 
-with mlflow.start_run() as run:
-    # Логируем метрики
-    mlflow.log_metric("roc_auc", roc_auc)
-    mlflow.log_metric("f1", f1)
-    mlflow.log_metric("precision", precision)
-    mlflow.log_metric("recall", recall)
 
-    # Логируем параметры модели (можно добавить из pipeline)
-    mlflow.log_param("model_type", "LogisticRegression")
-    mlflow.log_param("max_iter", 3000)
-    mlflow.log_param("random_state", 42)
+def register_model(pipeline, X_train, metrics, run_id):
+    signature = infer_signature(X_train, pipeline.predict(X_train))
 
-    # Сохраняем модель в MLflow
     mlflow.sklearn.log_model(
         sk_model=pipeline,
         artifact_path="model",
-        registered_model_name=MODEL_NAME  # автоматическая регистрация
+        signature=signature,
+        input_example=X_train.head(1),
+        registered_model_name=MODEL_NAME,
     )
 
-    # Получаем версию только что зарегистрированной модели
     client = MlflowClient()
-    model_version = client.get_latest_versions(MODEL_NAME, stages=["None"])[0].version
+    versions = client.search_model_versions(f"name='{MODEL_NAME}'")
+    matching = [v for v in versions if v.run_id == run_id]
+    if not matching:
+        raise RuntimeError("Registered model version was not created")
 
-    # Переводим модель в Staging (если метрики соответствуют порогу)
-    if roc_auc >= THRESHOLD_ROCAUC and recall >= THRESHOLD_RECALL:
+    version = max(matching, key=lambda v: int(v.version))
+
+    passed = (
+        metrics["roc_auc"] >= THRESHOLD_ROCAUC
+        and metrics["recall"] >= THRESHOLD_RECALL
+    )
+
+    if passed:
         client.transition_model_version_stage(
             name=MODEL_NAME,
-            version=model_version,
-            stage="Staging"
+            version=version.version,
+            stage="Staging",
         )
-        print(f"Model {MODEL_NAME} v{model_version} promoted to Staging")
+        print(f"Model {MODEL_NAME} v{version.version} promoted to Staging")
     else:
-        print(f"Model {MODEL_NAME} v{model_version} does not meet thresholds (ROC-AUC: {roc_auc}, Recall: {recall}) — kept as None")
+        print(
+            f"Model {MODEL_NAME} v{version.version} rejected: "
+            f"ROC-AUC={metrics['roc_auc']:.4f}, Recall={metrics['recall']:.4f}"
+        )
 
-print("Training and registration completed.")
+    return str(version.version), passed
+
+
+def main():
+    pipeline, X_train, _, _, _, metrics = train_baseline()
+
+    with mlflow.start_run() as run:
+        mlflow.log_metrics(metrics)
+        mlflow.log_params(
+            {
+                "model_type": "LogisticRegression",
+                "max_iter": 3000,
+                "random_state": 42,
+            }
+        )
+
+        version, passed = register_model(
+            pipeline,
+            X_train,
+            metrics,
+            run.info.run_id,
+        )
+
+        CANDIDATES_DIR.mkdir(parents=True, exist_ok=True)
+        joblib.dump(pipeline, CANDIDATES_DIR / f"model_v{version}.joblib")
+
+        with open(
+            CANDIDATES_DIR / f"metrics_v{version}.json",
+            "w",
+            encoding="utf-8",
+        ) as file:
+            json.dump(
+                {
+                    "model_version": version,
+                    "passed": passed,
+                    **metrics,
+                },
+                file,
+                ensure_ascii=False,
+                indent=2,
+            )
+
+
+if __name__ == "__main__":
+    main()
