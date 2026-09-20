@@ -68,3 +68,8 @@ def load_feature_store() -> pd.DataFrame:
 def load_training_data() -> tuple[pd.DataFrame, pd.Series]:
     df = load_feature_store()
     return df.drop(columns=[TARGET_COLUMN]), df[TARGET_COLUMN]
+
+
+if __name__ == "__main__":
+    path = build_feature_store()
+    print(f"Feature store built: {path}")
