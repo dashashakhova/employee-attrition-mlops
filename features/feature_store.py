@@ -56,8 +56,11 @@ def build_feature_store() -> Path:
 
     try:
         source_df = load_production_data()
-    except Exception:
-        # Allows local baseline development before the PostgreSQL source is initialized.
+    except Exception as exc:
+        if not ALLOW_STATIC_FALLBACK:
+            raise RuntimeError(
+                "Production data source is unavailable and static fallback is disabled"
+            ) from exc
         source_df = pd.read_csv(RAW_DATA_PATH)
 
     prepared = prepare_features(source_df)
