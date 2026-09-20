@@ -37,7 +37,7 @@ Prometheus metrics
 ## Level 2 MLOps components
 
 - Git / GitHub — version control
-- GitHub Actions — CI/CD
+- GitHub Actions — CI
 - PostgreSQL — mutable production data source
 - Feature Store layer — prepared feature dataset and schema
 - Airflow — orchestration
@@ -45,8 +45,10 @@ Prometheus metrics
 - FastAPI — online inference
 - Prometheus client — API metrics
 - Drift detection — KS test + TVD
+- Quality gate — blocks failed candidates
+- Production pointer — switches the served model version
 - Docker Compose — declarative local infrastructure
-- Render Blueprint — declarative cloud deployment
+- Render Blueprint — declarative public cloud deployment
 
 ## Model
 
@@ -70,14 +72,23 @@ Quality gate:
 
 A real HR database is not available for the course project. Therefore, the repository contains a PostgreSQL-backed production-data simulator.
 
-The historical IBM dataset is loaded as a reference batch. New batches are then appended to PostgreSQL. Controlled changes in OverTime and MonthlyIncome intentionally create a detectable drift event.
+The historical IBM dataset is loaded as a reference batch once. New batches are appended to PostgreSQL and intentionally modify `OverTime` and `MonthlyIncome` to create a reproducible drift event. This directly addresses the requirement that production data must change between retraining cycles.
 
-In production this component is replaced by a connector to the company's HR database, DWH or streaming source without changing the downstream contract.
+In a real company, the simulator would be replaced by a connector to the HR database, DWH or streaming source without changing the downstream contract.
+
+## Full lifecycle
+
+`ingest → drift/quality event → feature store → train → MLflow → quality gate → promote → FastAPI`
+
+A failed candidate stops before promotion, leaving the current Production pointer unchanged. A passing candidate updates the relative production pointer; FastAPI notices the new version and reloads it.
+
+See [Level 2 lifecycle](docs/lifecycle.md) for the detailed sequence.
 
 ## Local run
 
 ```bash
-docker compose up --build
+docker compose up --build -d
+docker compose ps
 ```
 
 Services:
@@ -91,15 +102,21 @@ Services:
 
 Airflow DAG:
 
-employee_attrition_retrain
+`employee_attrition_retrain`
 
 Flow:
 
-ingest → event detection → feature store → train → validate → promote
+`ingest → event detection → feature store → train → validate → promote`
+
+## Cloud deployment
+
+`render.yaml` declares the public FastAPI service. Render health checks use `/health`; the container binds to `0.0.0.0` and honors the platform `PORT` variable.
 
 ## Documentation
 
 - [ML manifest](docs/ml_manifest.md)
+- [Level 2 lifecycle](docs/lifecycle.md)
 - [SLI/SLO](docs/sli_slo.md)
 - [MDD ADR](docs/adr_mdd_latency.md)
 - [MDD analysis code](docs/mdd_analysis.py)
+- [Deployment and verification](docs/deployment.md)
