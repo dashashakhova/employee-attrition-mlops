@@ -2,26 +2,29 @@ from __future__ import annotations
 
 import json
 import shutil
-from pathlib import Path
+
+import mlflow
+from mlflow import MlflowClient
 
 from training.config import (
     CANDIDATES_DIR,
     MODEL_NAME,
     MODEL_POINTER_PATH,
     MLFLOW_TRACKING_URI,
+    PROJECT_ROOT,
     VERSIONS_DIR,
 )
 
-import mlflow
-from mlflow import MlflowClient
+
+def _latest_metrics_file():
+    files = list(CANDIDATES_DIR.glob("metrics_v*.json"))
+    if not files:
+        raise FileNotFoundError("No candidate model metrics found")
+    return max(files, key=lambda path: int(path.stem.split("_v")[-1]))
 
 
 def promote_latest_candidate() -> str:
-    metrics_files = sorted(CANDIDATES_DIR.glob("metrics_v*.json"))
-    if not metrics_files:
-        raise FileNotFoundError("No candidate model metrics found")
-
-    metrics_path = metrics_files[-1]
+    metrics_path = _latest_metrics_file()
     with open(metrics_path, encoding="utf-8") as file:
         metrics = json.load(file)
 
@@ -37,10 +40,11 @@ def promote_latest_candidate() -> str:
     production_model = VERSIONS_DIR / f"model_v{version}.joblib"
     shutil.copy2(candidate, production_model)
 
+    relative_model_path = production_model.relative_to(PROJECT_ROOT)
     pointer = {
         "model_name": MODEL_NAME,
         "version": version,
-        "model_path": str(production_model),
+        "model_path": str(relative_model_path),
         "roc_auc": metrics["roc_auc"],
         "recall": metrics["recall"],
     }
@@ -51,11 +55,20 @@ def promote_latest_candidate() -> str:
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     client = MlflowClient()
     try:
-        client.transition_model_version_stage(
-            name=MODEL_NAME, version=version, stage="Production"
-        )
+        if hasattr(client, "set_registered_model_alias"):
+            client.set_registered_model_alias(
+                name=MODEL_NAME,
+                alias="production",
+                version=version,
+            )
+        else:
+            client.transition_model_version_stage(
+                name=MODEL_NAME,
+                version=version,
+                stage="Production",
+            )
     except Exception as exc:
-        print(f"MLflow stage update skipped: {exc}")
+        print(f"MLflow production label update skipped: {exc}")
 
     print(f"Production traffic switched to model v{version}")
     return version
