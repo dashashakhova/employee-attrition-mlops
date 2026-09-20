@@ -59,6 +59,17 @@ async def startup_event():
             default_values[col] = mode.iloc[0] if not mode.empty else "Unknown"
 
 
+@app.get("/")
+async def root():
+    return {
+        "service": "employee-attrition-api",
+        "status": "ok",
+        "docs": "/docs",
+        "health": "/health",
+        "metrics": "/metrics",
+    }
+
+
 @app.get("/health")
 async def health():
     return {
