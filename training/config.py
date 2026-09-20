@@ -7,6 +7,7 @@ RAW_DATA_PATH = PROJECT_ROOT / "data" / "raw" / "hr_attrition.csv"
 FEATURE_STORE_PATH = PROJECT_ROOT / "data" / "processed" / "feature_store.csv"
 FEATURE_SCHEMA_PATH = PROJECT_ROOT / "data" / "processed" / "feature_schema.json"
 DRIFT_REPORT_PATH = PROJECT_ROOT / "data" / "processed" / "drift_report.json"
+PRODUCTION_QUALITY_REPORT_PATH = PROJECT_ROOT / "data" / "processed" / "production_quality_report.json"
 
 MODELS_DIR = PROJECT_ROOT / "models"
 MODEL_PATH = MODELS_DIR / "baseline_model.joblib"
@@ -25,8 +26,9 @@ PRODUCTION_BATCH_SIZE = int(os.getenv("PRODUCTION_BATCH_SIZE", "50"))
 PRODUCTION_DRIFT_STRENGTH = float(os.getenv("PRODUCTION_DRIFT_STRENGTH", "0.20"))
 DRIFT_P_VALUE = float(os.getenv("DRIFT_P_VALUE", "0.05"))
 DRIFT_TVD_THRESHOLD = float(os.getenv("DRIFT_TVD_THRESHOLD", "0.10"))
+ALLOW_STATIC_FALLBACK = os.getenv("ALLOW_STATIC_FALLBACK", "false").lower() == "true"
 
 THRESHOLD_ROCAUC = float(os.getenv("THRESHOLD_ROCAUC", "0.80"))
 THRESHOLD_RECALL = float(os.getenv("THRESHOLD_RECALL", "0.36"))
 
-ALLOW_STATIC_FALLBACK = os.getenv("ALLOW_STATIC_FALLBACK", "false").lower() == "true"\n\nMODEL_NAME = os.getenv("MODEL_NAME", "employee_attrition")
+MODEL_NAME = os.getenv("MODEL_NAME", "employee_attrition")
