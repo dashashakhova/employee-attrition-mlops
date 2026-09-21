@@ -8,8 +8,6 @@ The service estimates the probability that an employee will leave the company. T
 
 ## Architecture
 
-![Architecture](docs/architecture.png)
-
 ```text
 Production data
       ↓
